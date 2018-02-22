@@ -97,6 +97,16 @@ class Game extends React.Component {
     });
   }
 
+  reset() {
+    this.setState({
+      history: [{
+        squares: Array(9).fill(null),
+      }],
+      stepNumber: 0,
+      xIsNext: true,
+    });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -122,7 +132,16 @@ class Game extends React.Component {
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
-    
+
+    let resetBtn;    
+    if (this.state.stepNumber === 9 || winner) {
+      resetBtn = (
+        <button onClick={() => this.reset()}>
+          New Game
+        </button>
+        );
+    }
+
     return (
       <div className="game">
       <div className="game-board">
@@ -135,6 +154,7 @@ class Game extends React.Component {
       <div className="game-info">
       <div>{status}</div>
       <ol>{moves}</ol>
+      <div>{resetBtn}</div>
       </div>
       </div>
     );
